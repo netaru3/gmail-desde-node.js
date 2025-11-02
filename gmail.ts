@@ -1,8 +1,6 @@
 function instalar(paquete:string){try{require.resolve(paquete)} catch{
 execSync(`npm install ${paquete}`)
 }};
-instalar("typescript");
-instalar("ts-node")
 instalar("nodemailer");
 instalar("imapflow");
 instalar("mailparser");
@@ -150,3 +148,4 @@ try {
 rl.close()}
 
 //admito que este código es un despelote ilegible super mal organizado y que gran parte lo hizo chatgpt xD
+
