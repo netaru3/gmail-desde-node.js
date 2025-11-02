@@ -1,6 +1,8 @@
 function instalar(paquete:string){try{require.resolve(paquete)} catch{
 execSync(`npm install ${paquete}`)
 }};
+instalar("typescript");
+instalar("ts-node")
 instalar("nodemailer");
 instalar("imapflow");
 instalar("mailparser");
