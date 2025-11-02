@@ -2,7 +2,7 @@ importante: La contraseña que pide la podés conseguir con doble autentificaci�
 
 pasos para ejecutar el gmail desde terminal:
 
-1: npm install nodemailer
+1: npm install nodemailer imapflow mailparser
 
 2: npm install typescript
 
