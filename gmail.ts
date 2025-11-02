@@ -1,8 +1,17 @@
+function instalar(paquete:string){try{require.resolve(paquete)} catch{
+execSync(`npm install ${paquete}`)
+}};
+instalar("nodemailer");
+instalar("imapflow");
+instalar("mailparser");
 import nodemailer from 'nodemailer';
 import readline from 'readline/promises';
 import {ImapFlow} from 'imapflow';
 import {simpleParser} from 'mailparser';
 import fs from 'fs';
+import { execSync } from 'child_process';
+
+
 let num= 0
 export class logs{
     constructor(){}
