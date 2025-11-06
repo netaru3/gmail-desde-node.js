@@ -1,9 +1,16 @@
+import 'dotenv/config'
+import env from 'env-var'
+
+export let codigo:string | undefined=env.get('codigo').asString();
+export let gmail= env.get("email").asString();
+export let gmaildestinatario= env.get("emaildestinatario").asString();
 function instalar(paquete:string){try{require.resolve(paquete)} catch{
 execSync(`npm install ${paquete}`)
 }};
 instalar("nodemailer");
 instalar("imapflow");
 instalar("mailparser");
+instalar("env-var")
 import nodemailer from 'nodemailer';
 import readline from 'readline/promises';
 import {ImapFlow} from 'imapflow';
@@ -42,7 +49,7 @@ const client = new ImapFlow({
   secure: true,
   auth: {
     user: gmailUsuario ||'netaru3@gmail.com',
-    pass: contraseña // NO tu contraseña normal
+    pass: contraseña || codigo // NO tu contraseña normal
   },
   logger: false
 });
@@ -86,7 +93,7 @@ const client = new ImapFlow({
   secure: true,
   auth: {
     user: gmailUsuario ||'netaru3@gmail.com',
-    pass: contraseña // NO tu contraseña normal
+    pass: contraseña || codigo // NO tu contraseña normal
   },
   logger: false
 });
@@ -112,24 +119,34 @@ const client = new ImapFlow({
 })();
 
  }
-async function enviargmail(){
- let contraseña= await rl.question("ingrese su contraseña de aplicación:");
-let gmailUsuario=await rl.question("ingrese su gmail:");
-let gmailDestinatario=await rl.question("ingrese el gmail del destinatario:");
-let titulo=await rl.question("ingrese el titulo del gmail:")
-let texto=await rl.question("ingrese el texto que desea enviar:")
+ let contraseña: string;
+ let gmailUsuario:string;
+ let titulo:string;
+ let texto:string;
+let gmailDestinatario:string;
+export async function enviargmail(text:string,
+  automatizacion:boolean,
+ contra:string,email:string,emaildestinatario:string,title:string,
+ 
+){
+  if(automatizacion===false){
+ contraseña= await rl.question("ingrese su contraseña de aplicación:");
+ gmailUsuario=await rl.question("ingrese su gmail:");
+ gmailDestinatario=await rl.question("ingrese el gmail del destinatario:");
+ titulo=await rl.question("ingrese el titulo del gmail:")
+ texto=await rl.question("ingrese el texto que desea enviar:")}
 const transporter = nodemailer.createTransport({
   service: 'gmail', 
   auth: {
     user: gmail(),
-    pass: contraseña
+    pass: contraseña || contra
   }
 });
- function gmail(){if(gmailUsuario===""){return "netaru3@gmail.com"}
+ function gmail(){if(gmailUsuario===""){return email}
 else{return gmailUsuario}}
-  function destinatario(){if(gmailDestinatario===""){return "aaronpastorini46@gmail.com"}
+  function destinatario(){if(gmailDestinatario===""){return emaildestinatario }
 else{return gmailDestinatario}}
-  function subject(){if(titulo===""){return "hola desde node.js"}
+  function subject(){if(titulo===""){return title}
 else{return titulo}}
 const mailOptions = {
   from:gmail(), 
@@ -148,4 +165,3 @@ try {
 rl.close()}
 
 //admito que este código es un despelote ilegible super mal organizado y que gran parte lo hizo chatgpt xD
-
